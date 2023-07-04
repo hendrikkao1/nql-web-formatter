@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NQL formatter</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  </head>
+  <body class="relative min-h-screen w-screen overflow-x-hidden bg-background">
+    <main class="container p-4">
+      <label class="prose" for="nql-query">Make your NQL readable</label>
+      <textarea
+        data-js-id="nql-query"
+        id="nql-query"
+        class="w-full h-64 p-2"
+      ></textarea>
+      <button
+        data-js-id="format-nql-query"
+        class="border border-blue-500 text-blue-500 bg-blue-500 w-full p-2 hover:bg-opacity-20 border-opacity-20 bg-opacity-10"
+      >
+        Format
+      </button>
+    </main>
+    <script src="./libs/tree-sitter.js"></script>
+    <script type="module">
+      const Parser = window.TreeSitter;
+
+      await Parser.init();
+
+      const Nql = await Parser.Language.load("./libs/tree-sitter-nql.wasm");
+
+      const parser = new Parser();
+
+      parser.setLanguage(Nql);
+
+      const nqlQueryInputEl = document.querySelector(
+        '[data-js-id="nql-query"]'
+      );
+
+      const formatButtonEl = document.querySelector(
+        '[data-js-id="format-nql-query"]'
+      );
+
+      function format() {
+        const nqlQuery = nqlQueryInputEl.value.replaceAll("\n", " ").trim();
+
+        const tree = parser.parse(nqlQuery);
+
+        const formatNode = (node) => {
+          if (node.type === "statment") {
+            return "\n" + node.text;
+          }
+
+          // No idea how to handle real whitespace at the moment
+          return node.text + " ";
+        };
+
+        const formattedNql =
+          tree.rootNode.children?.[0]?.children
+            .map((node) => formatNode(node))
+            .join("") ?? nqlQuery;
+
+        nqlQueryInputEl.value = formattedNql;
+      }
+
+      formatButtonEl.addEventListener("click", format);
+    </script>
+  </body>
+</html>
