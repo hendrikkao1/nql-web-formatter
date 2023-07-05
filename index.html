@@ -41,29 +41,47 @@
         '[data-js-id="format-nql-query"]'
       );
 
-      function format() {
-        const nqlQuery = nqlQueryInputEl.value.replaceAll("\n", " ").trim();
+      function formatNqlQuery() {
+        const nqlQuery = nqlQueryInputEl.value;
 
         const tree = parser.parse(nqlQuery);
 
-        const formatNode = (node) => {
-          if (node.type === "statment") {
-            return "\n" + node.text;
-          }
+        const formatNode = (node) =>
+          node.children.map((queryChild) => {
+            if (queryChild.type === "clause") {
+              return (
+                "\n\n" +
+                queryChild.children[0].text +
+                " " +
+                queryChild.children[1].children
+                  .map((c) => {
+                    if (
+                      c.type === "and" ||
+                      c.type === "by" ||
+                      c.type === "field" ||
+                      c.type === "or" ||
+                      c.type === "sort_order"
+                    ) {
+                      return "\n  " + c.text;
+                    }
 
-          // No idea how to handle real whitespace at the moment
-          return node.text + " ";
-        };
+                    return c.text;
+                  })
+                  .join(" ")
+              );
+            }
 
-        const formattedNql =
-          tree.rootNode.children?.[0]?.children
-            .map((node) => formatNode(node))
-            .join("") ?? nqlQuery;
+            return " " + queryChild.text;
+          });
+
+        const formattedNql = tree.rootNode.children?.[0]
+          ? formatNode(tree.rootNode.children[0]).join("").trim()
+          : nqlQuery;
 
         nqlQueryInputEl.value = formattedNql;
       }
 
-      formatButtonEl.addEventListener("click", format);
+      formatButtonEl.addEventListener("click", formatNqlQuery);
     </script>
   </body>
 </html>
