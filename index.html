@@ -47,35 +47,44 @@
         const tree = parser.parse(nqlQuery);
 
         const formatNode = (node) =>
-          node.children.map((queryChild) => {
-            if (queryChild.type === "clause") {
-              return (
-                "\n\n" +
-                queryChild.children[0].text +
-                " " +
-                queryChild.children[1].children
-                  .map((c) => {
-                    if (
-                      c.type === "and" ||
-                      c.type === "by" ||
-                      c.type === "field" ||
-                      c.type === "or" ||
-                      c.type === "sort_order"
-                    ) {
-                      return "\n  " + c.text;
-                    }
+          node.children
+            .map((queryChild) => {
+              if (queryChild.type === "clause") {
+                return (
+                  "\n\n" +
+                  queryChild.children[0].text +
+                  " " +
+                  queryChild.children[1].children
+                    .map((c) => {
+                      if (
+                        c.type === "and" ||
+                        c.type === "by" ||
+                        c.type === "field" ||
+                        c.type === "or" ||
+                        c.type === "sort_order" ||
+                        c.type === "table" ||
+                        c.type === "time_frame"
+                      ) {
+                        return "\n  " + c.text;
+                      }
 
-                    return c.text;
-                  })
-                  .join(" ")
-              );
-            }
+                      return c.text;
+                    })
+                    .join(" ")
+                );
+              }
 
-            return " " + queryChild.text;
-          });
+              if (queryChild.type === "time_frame") {
+                return "\n  " + queryChild.text;
+              }
+
+              return " " + queryChild.text;
+            })
+            .join("")
+            .trim();
 
         const formattedNql = tree.rootNode.children?.[0]
-          ? formatNode(tree.rootNode.children[0]).join("").trim()
+          ? formatNode(tree.rootNode.children[0])
           : nqlQuery;
 
         nqlQueryInputEl.value = formattedNql;
