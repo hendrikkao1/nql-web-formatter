@@ -63,7 +63,9 @@
                         c.type === "or" ||
                         c.type === "sort_order" ||
                         c.type === "table" ||
-                        c.type === "time_frame"
+                        c.type === "time_frame" ||
+                        c.type === "(" ||
+                        c.type === ")"
                       ) {
                         return "\n  " + c.text;
                       }
