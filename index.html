@@ -46,6 +46,8 @@
 
         const tree = parser.parse(nqlQuery);
 
+        console.log({ tree });
+
         const formatNode = (node) =>
           node.children
             .map((queryChild) => {
