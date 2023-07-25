@@ -4,24 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Make your NQL beautiful</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   </head>
-  <body class="relative min-h-screen w-screen overflow-x-hidden bg-background">
-    <main class="container min-h-screen p-4 mx-auto flex flex-col">
-      <textarea
-        data-js-id="nql-query"
-        id="nql-query"
-        class="w-full p-2 grow border-blue-500 text-sm"
-        placeholder="Paste your NQL query here"
-      ></textarea>
-      <button
-        data-js-id="format-nql-query"
-        class="border border-blue-500 border-t-0 text-blue-500 bg-blue-500 w-full p-2 hover:bg-opacity-20 bg-opacity-10"
-      >
-        Format
-      </button>
-    </main>
-    <script src="./libs/tree-sitter.js"></script>
-    <script type="module" src="./main.js"></script>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
