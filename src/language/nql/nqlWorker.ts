@@ -2,8 +2,6 @@ import { worker } from "monaco-editor";
 import { NqlWorker as INqlWorker } from "./monaco.contribution";
 import Parser from "web-tree-sitter";
 
-const getLibPath = (fileName: string) => __BASE_PATH__ + `libs/${fileName}`;
-
 export interface ICreateData {}
 
 export function create(
@@ -16,19 +14,20 @@ export function create(
 export class NqlWorker implements INqlWorker {
   private _ctx: worker.IWorkerContext;
   private _createData: ICreateData;
+  private _parser: Parser | null;
 
   constructor(ctx: worker.IWorkerContext, createData: ICreateData) {
     this._ctx = ctx;
     this._createData = createData;
-    console.log(this._createData);
+    this._parser = null;
   }
 
-  async getTokens(uri: string): Promise<any> {
-    const document = this._getDocumentText(uri);
-
-    if (!document) {
-      return Promise.reject("No document");
+  private async _getParser(): Promise<Parser> {
+    if (this._parser) {
+      return this._parser;
     }
+
+    const getLibPath = (fileName: string) => __BASE_PATH__ + `libs/${fileName}`;
 
     await Parser.init({
       locateFile(scriptName: string) {
@@ -41,6 +40,20 @@ export class NqlWorker implements INqlWorker {
     const parser = new Parser();
 
     parser.setLanguage(Nql);
+
+    this._parser = parser;
+
+    return parser;
+  }
+
+  async getTokens(uri: string): Promise<any> {
+    const document = this._getDocumentText(uri);
+
+    if (!document) {
+      return Promise.reject("No document");
+    }
+
+    const parser = await this._getParser();
 
     const tree = parser.parse(document);
 
@@ -99,17 +112,7 @@ export class NqlWorker implements INqlWorker {
       return Promise.reject("No document");
     }
 
-    await Parser.init({
-      locateFile(scriptName: string) {
-        return getLibPath(scriptName);
-      },
-    });
-
-    const Nql = await Parser.Language.load(getLibPath("tree-sitter-nql.wasm"));
-
-    const parser = new Parser();
-
-    parser.setLanguage(Nql);
+    const parser = await this._getParser();
 
     const tree = parser.parse(document);
 
