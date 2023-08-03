@@ -2,6 +2,8 @@ import { worker } from "monaco-editor";
 import { NqlWorker as INqlWorker } from "./monaco.contribution";
 import Parser from "web-tree-sitter";
 
+const getLibPath = (fileName: string) => __BASE_PATH__ + `libs/${fileName}`;
+
 export interface ICreateData {}
 
 export function create(
@@ -30,13 +32,11 @@ export class NqlWorker implements INqlWorker {
 
     await Parser.init({
       locateFile(scriptName: string) {
-        return `/nql-web-formatter/libs/${scriptName}`;
+        return getLibPath(scriptName);
       },
     });
 
-    const Nql = await Parser.Language.load(
-      "/nql-web-formatter/libs/tree-sitter-nql.wasm"
-    );
+    const Nql = await Parser.Language.load(getLibPath("tree-sitter-nql.wasm"));
 
     const parser = new Parser();
 
@@ -101,13 +101,11 @@ export class NqlWorker implements INqlWorker {
 
     await Parser.init({
       locateFile(scriptName: string) {
-        return `/nql-web-formatter/libs/${scriptName}`;
+        return getLibPath(scriptName);
       },
     });
 
-    const Nql = await Parser.Language.load(
-      "/nql-web-formatter/libs/tree-sitter-nql.wasm"
-    );
+    const Nql = await Parser.Language.load(getLibPath("tree-sitter-nql.wasm"));
 
     const parser = new Parser();
 
