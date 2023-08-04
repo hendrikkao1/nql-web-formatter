@@ -26,9 +26,16 @@ monaco.languages.onLanguage(nqlLanguageSelector, () => {
   setupMode();
 });
 
-monaco.editor.create(document.querySelector("#app") as HTMLDivElement, {
-  value: defaultValue,
-  language: nqlLanguageSelector,
-  theme: "vs-dark",
-  "semanticHighlighting.enabled": true,
+const editor = monaco.editor.create(
+  document.querySelector("#editor") as HTMLDivElement,
+  {
+    value: defaultValue,
+    language: nqlLanguageSelector,
+    theme: "vs-dark",
+    "semanticHighlighting.enabled": true,
+  }
+);
+
+document.querySelector("[data-js-id=format]")?.addEventListener("click", () => {
+  editor.getAction?.("editor.action.formatDocument")?.run();
 });
