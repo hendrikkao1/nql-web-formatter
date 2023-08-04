@@ -3,6 +3,12 @@ body {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
   width: 100dvw;
   height: 100dvh;
+}
+
+#editor {
+  flex-grow: 1;
 }
