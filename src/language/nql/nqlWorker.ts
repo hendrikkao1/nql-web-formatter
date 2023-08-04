@@ -20,6 +20,9 @@ export class NqlWorker implements INqlWorker {
     this._ctx = ctx;
     this._createData = createData;
     this._parser = null;
+
+    // TODO: Remove this
+    console.log(this._createData);
   }
 
   private async _getParser(): Promise<Parser> {
