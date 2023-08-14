@@ -1,4 +1,3 @@
-import "./style.css";
 import defaultValue from "./default-value";
 import * as monaco from "monaco-editor";
 

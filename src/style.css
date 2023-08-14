@@ -1,14 +1,34 @@
+@import url("/node_modules/normalize.css/normalize.css");
+
 body {
   margin: 0;
+  background-color: #1e1e1e;
 }
 
-#app {
+.app {
   display: flex;
-  flex-direction: column;
   width: 100dvw;
   height: 100dvh;
 }
 
-#editor {
+.app__editor {
   flex-grow: 1;
+}
+
+.app__toolbar {
+  padding: 0.5rem;
+  order: -1;
+  border-right: 2px solid #404040;
+}
+
+.toolbar-button {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: 0;
+  cursor: pointer;
+  font-size: 1.75rem;
+}
+
+.toolbar-button:hover {
+  color: #fff;
 }
