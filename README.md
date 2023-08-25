@@ -5,3 +5,18 @@
 Experimental tool to make [Nexthink query language (NQL)](https://docs.nexthink.com/platform/latest/nexthink-query-language-nql) more readable by applying formatting rules and syntax highlighting using a parser built with [tree sitter](https://github.com/tree-sitter/tree-sitter).
 
 ![Screenshot of the app](screenshot.png)
+
+---
+
+## Known issues
+
+- `,,` is not considered a syntax error
+- Editor does not resize when resizing the viewport
+
+## TODO
+
+- Semantic variable highlighting
+- Build and deploy `main` branch with in github actions
+- Built in reporting of issues
+- Link to GitHub
+- Use tree sitter cursor for traversing a tree
