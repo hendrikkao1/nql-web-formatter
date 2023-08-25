@@ -1,9 +1,9 @@
 import { Uri, editor } from "monaco-editor";
-import { NqlWorker } from "./monaco.contribution";
+import { INqlWorker } from "./monaco.contribution";
 
 export class WorkerManager {
-  private _worker: editor.MonacoWebWorker<NqlWorker> | null;
-  private _client: Promise<NqlWorker> | null;
+  private _worker: editor.MonacoWebWorker<INqlWorker> | null;
+  private _client: Promise<INqlWorker> | null;
 
   constructor(private readonly _languageSelector: string) {
     this._worker = null;
@@ -22,10 +22,10 @@ export class WorkerManager {
     this._client = null;
   }
 
-  private _getClient(): Promise<NqlWorker> {
+  private _getClient(): Promise<INqlWorker> {
     if (!this._client) {
       this._client = (async () => {
-        this._worker = editor.createWebWorker<NqlWorker>({
+        this._worker = editor.createWebWorker<INqlWorker>({
           // module that exports the create() method and returns a `NqlWorker` instance
           moduleId: "nql",
           label: this._languageSelector,
@@ -43,7 +43,7 @@ export class WorkerManager {
     return this._client;
   }
 
-  async getLanguageServiceWorker(...resources: Uri[]): Promise<NqlWorker> {
+  async getLanguageServiceWorker(...resources: Uri[]): Promise<INqlWorker> {
     const client = await this._getClient();
 
     if (this._worker) {

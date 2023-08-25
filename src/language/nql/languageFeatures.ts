@@ -1,8 +1,15 @@
-import { CancellationToken, Uri, editor, languages } from "monaco-editor";
-import { NqlWorker } from "./monaco.contribution";
+import {
+  CancellationToken,
+  IDisposable,
+  MarkerSeverity,
+  Uri,
+  editor,
+  languages,
+} from "monaco-editor";
+import { INqlWorker } from "./monaco.contribution";
 
 export abstract class Adapter {
-  constructor(protected _worker: (...uris: Uri[]) => Promise<NqlWorker>) {}
+  constructor(protected _worker: (...uris: Uri[]) => Promise<INqlWorker>) {}
 }
 
 const tokenTypes = [

@@ -1,11 +1,11 @@
 import { IDisposable, Uri, languages } from "monaco-editor";
 import * as languageFeatures from "./languageFeatures";
 import { WorkerManager } from "./workerManager";
-import { NqlWorker } from "./monaco.contribution";
+import { INqlWorker } from "./monaco.contribution";
 
 export const languageSelector = "nql";
 
-export function setupMode(): (...uris: Uri[]) => Promise<NqlWorker> {
+export function setupMode(): (...uris: Uri[]) => Promise<INqlWorker> {
   const disposables: IDisposable[] = [];
   const providers: IDisposable[] = [];
 
@@ -13,7 +13,7 @@ export function setupMode(): (...uris: Uri[]) => Promise<NqlWorker> {
 
   disposables.push(client);
 
-  const worker = (...resources: Uri[]): Promise<NqlWorker> => {
+  const worker = (...resources: Uri[]): Promise<INqlWorker> => {
     return client.getLanguageServiceWorker(...resources);
   };
 

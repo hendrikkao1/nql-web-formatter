@@ -1,5 +1,5 @@
 import { worker } from "monaco-editor";
-import { NqlWorker as INqlWorker } from "./monaco.contribution";
+import { IError, INqlWorker, IToken } from "./monaco.contribution";
 import Parser from "web-tree-sitter";
 
 export interface ICreateData {}
@@ -49,7 +49,7 @@ export class NqlWorker implements INqlWorker {
     return parser;
   }
 
-  async getTokens(uri: string): Promise<any> {
+  async getTokens(uri: string): Promise<IToken[]> {
     const document = this._getDocumentText(uri);
 
     if (!document) {
