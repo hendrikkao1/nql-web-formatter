@@ -121,10 +121,11 @@ export class NqlWorker implements INqlWorker {
 
     const formatNode = (node: Parser.SyntaxNode): string => {
       switch (node.type) {
+        case "source_file":
         case "query":
           return node.children.map(formatNode).join("");
         case "pipe":
-          return "\n\n" + node.text.trim();
+          return "\n\n" + node.text;
         case "and":
         case "by":
         case "duration":
@@ -160,6 +161,8 @@ export class NqlWorker implements INqlWorker {
           return node.children.map(formatNode).join("");
         case ",":
           return node.text + " ";
+        case "ERROR":
+          return node.text;
         default:
           // Just clean up whitespace for the time being
           console.warn(`TODO: Unhandled node type: ${node.type}`);
@@ -167,9 +170,7 @@ export class NqlWorker implements INqlWorker {
       }
     };
 
-    const formattedNql = tree.rootNode.children?.[0]
-      ? formatNode(tree.rootNode.children[0]).trim()
-      : document;
+    const formattedNql = formatNode(tree.rootNode).trim();
 
     return formattedNql;
   }
