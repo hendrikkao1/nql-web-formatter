@@ -49,6 +49,16 @@ export class NqlWorker implements INqlWorker {
     return parser;
   }
 
+  private _getDocumentText(uri: string): string | null {
+    const models = this._ctx.getMirrorModels();
+    for (const model of models) {
+      if (model.uri.toString() === uri) {
+        return model.getValue();
+      }
+    }
+    return null;
+  }
+
   async getTokens(uri: string): Promise<IToken[]> {
     const document = this._getDocumentText(uri);
 
@@ -173,16 +183,6 @@ export class NqlWorker implements INqlWorker {
     const formattedNql = formatNode(tree.rootNode).trim();
 
     return formattedNql;
-  }
-
-  private _getDocumentText(uri: string): string | null {
-    const models = this._ctx.getMirrorModels();
-    for (const model of models) {
-      if (model.uri.toString() === uri) {
-        return model.getValue();
-      }
-    }
-    return null;
   }
 
   async getParseErrors(uri: string): Promise<IError[]> {
