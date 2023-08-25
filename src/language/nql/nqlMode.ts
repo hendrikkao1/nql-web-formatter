@@ -58,6 +58,8 @@ export function setupMode(): (...uris: Uri[]) => Promise<NqlWorker> {
         new languageFeatures.TokenAdapter(worker)
       )
     );
+
+    providers.push(new languageFeatures.DiagnosticsAdapter(worker));
   }
 
   registerProviders();

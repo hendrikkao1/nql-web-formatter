@@ -184,4 +184,54 @@ export class NqlWorker implements INqlWorker {
     }
     return null;
   }
+
+  async getParseErrors(uri: string): Promise<IError[]> {
+    const document = this._getDocumentText(uri);
+
+    if (!document) {
+      return Promise.reject("No document");
+    }
+
+    const parser = await this._getParser();
+
+    const tree = parser.parse(document);
+
+    if (!tree.rootNode.hasError()) {
+      return [];
+    }
+
+    const getNodeErrors = (node: Parser.SyntaxNode) => {
+      const errors: {
+        text: string;
+        startPosition: {
+          column: number;
+          row: number;
+        };
+        endPosition: {
+          column: number;
+          row: number;
+        };
+      }[] = [];
+
+      for (const child of node.children) {
+        switch (child.type) {
+          case "ERROR":
+            errors.push({
+              text: child.text,
+              startPosition: child.startPosition,
+              endPosition: child.endPosition,
+            });
+            break;
+          default:
+            break;
+        }
+
+        errors.push(...getNodeErrors(child));
+      }
+
+      return errors;
+    };
+
+    return getNodeErrors(tree.rootNode);
+  }
 }

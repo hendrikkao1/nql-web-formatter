@@ -165,3 +165,94 @@ export class FormattingAdapter
     return Promise.resolve([edit]);
   }
 }
+
+export class DiagnosticsAdapter extends Adapter {
+  private _disposables: IDisposable[] = [];
+  private _listener: { [uri: string]: IDisposable } = Object.create(null);
+
+  constructor(worker: (...uris: Uri[]) => Promise<INqlWorker>) {
+    super(worker);
+
+    const onModelAdd = (model: editor.IModel): void => {
+      if (model.getLanguageId() !== "nql") {
+        return;
+      }
+
+      const validate = () => {
+        this._doValidate(model);
+      };
+
+      let handle: number;
+
+      const changeSubscription = model.onDidChangeContent(() => {
+        clearTimeout(handle);
+        handle = window.setTimeout(validate, 500);
+      });
+
+      this._listener[model.uri.toString()] = {
+        dispose() {
+          changeSubscription.dispose();
+          clearTimeout(handle);
+        },
+      };
+
+      validate();
+    };
+
+    const onModelRemoved = (model: editor.IModel): void => {
+      editor.setModelMarkers(model, "nql", []);
+
+      const key = model.uri.toString();
+
+      if (this._listener[key]) {
+        this._listener[key].dispose();
+        delete this._listener[key];
+      }
+    };
+
+    this._disposables.push(
+      editor.onDidCreateModel((model) => onModelAdd(model))
+    );
+
+    this._disposables.push(editor.onWillDisposeModel(onModelRemoved));
+
+    this._disposables.push({
+      dispose() {
+        for (const model of editor.getModels()) {
+          onModelRemoved(model);
+        }
+      },
+    });
+
+    editor.getModels().forEach((model) => onModelAdd(model));
+  }
+
+  public dispose(): void {
+    this._disposables.forEach((d) => d && d.dispose());
+    this._disposables = [];
+  }
+
+  private async _doValidate(model: editor.ITextModel): Promise<void> {
+    const resource = model.uri;
+    const worker = await this._worker(resource);
+    const errors = await worker.getParseErrors(resource.toString());
+
+    if (model.isDisposed()) {
+      // model was disposed in the meantime
+      return;
+    }
+
+    editor.setModelMarkers(
+      model,
+      "nql",
+      errors.map((e) => ({
+        severity: MarkerSeverity.Error,
+        startLineNumber: e.startPosition.row + 1,
+        startColumn: e.startPosition.column + 1,
+        endLineNumber: e.endPosition.row + 1,
+        endColumn: e.endPosition.column + 1,
+        message: `Syntax error: "${e.text}"`,
+      }))
+    );
+  }
+}
