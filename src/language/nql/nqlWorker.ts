@@ -70,6 +70,33 @@ export class NqlWorker implements INqlWorker {
 
     const tree = parser.parse(document);
 
+    const isUserDefinedField = (node: Parser.SyntaxNode): boolean => {
+      let isFound: boolean = false;
+
+      const findDeclaration = (treeNode: Parser.SyntaxNode): boolean => {
+        for (const child of treeNode.children) {
+          switch (child.type) {
+            case "summarize_clause":
+            case "compute_clause":
+              child.children.forEach((c) => {
+                if (c.type === "field_name" && c.text === node.text) {
+                  isFound = true;
+                }
+              });
+              break;
+            default:
+              break;
+          }
+        
+          findDeclaration(child);
+        }
+
+        return isFound;
+      };
+
+      return findDeclaration(tree.rootNode);
+    };
+
     const getNodeTokens = (node: Parser.SyntaxNode) => {
       const tokens: {
         type: string;
@@ -102,6 +129,17 @@ export class NqlWorker implements INqlWorker {
               text: child.text,
               modifiers: 0,
             });
+            break;
+          case "field_name":
+            if (isUserDefinedField(child)) {
+              tokens.push({
+                type: child.type,
+                startPosition: child.startPosition,
+                endPosition: child.endPosition,
+                text: child.text,
+                modifiers: 0,
+              });
+            }
             break;
           default:
             break;
@@ -140,6 +178,7 @@ export class NqlWorker implements INqlWorker {
         case "by":
         case "duration":
         case "field":
+        case "field_name":
         case "or":
         case "sort_order":
         case "table":
