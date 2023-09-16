@@ -1,8 +1,27 @@
 @import url("/node_modules/normalize.css/normalize.css");
 
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --editor-bg-color: #1e1e1e;
+    --editor-border-color: #404040;
+    --editor-button-color-hover: #fff;
+    --editor-button-color: #a0a0a0;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --editor-bg-color: #fffffe;
+    --editor-border-color: #e6e6e6;
+    --editor-button-color-hover: #1f1f1f;
+    --editor-button-color: #646464;
+  }
+}
+
 body {
   margin: 0;
-  background-color: #1e1e1e;
+  background-color: var(--editor-bg-color);
 }
 
 .app {
@@ -13,22 +32,23 @@ body {
 
 .app__editor {
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .app__toolbar {
   padding: 0.5rem;
   order: -1;
-  border-right: 2px solid #404040;
+  border-right: 2px solid var(--editor-border-color);
 }
 
 .toolbar-button {
   background-color: transparent;
-  color: #a0a0a0;
+  color: var(--editor-button-color);
   border: 0;
   cursor: pointer;
   font-size: 1.75rem;
 }
 
 .toolbar-button:hover {
-  color: #fff;
+  color: var(--editor-button-color-hover);
 }

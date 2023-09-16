@@ -8,6 +8,10 @@ import {
   languageSelector as nqlLanguageSelector,
 } from "./language/nql/nqlMode";
 
+const isDarkMode =
+  window.matchMedia &&
+  window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 self.MonacoEnvironment = {
   getWorker(_: string, label: string) {
     if (label === nqlLanguageSelector) {
@@ -30,8 +34,12 @@ const editor = monaco.editor.create(
   {
     value: defaultValue,
     language: nqlLanguageSelector,
-    theme: "vs-dark",
+    theme: isDarkMode ? "vs-dark" : "vs-light",
     "semanticHighlighting.enabled": true,
+    automaticLayout: true,
+    minimap: {
+      enabled: false,
+    }
   }
 );
 
