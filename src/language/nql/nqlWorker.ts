@@ -87,7 +87,7 @@ export class NqlWorker implements INqlWorker {
             default:
               break;
           }
-        
+
           findDeclaration(child);
         }
 
@@ -199,7 +199,6 @@ export class NqlWorker implements INqlWorker {
         case "subtraction":
           return " " + node.text + " ";
         case "clause":
-          return node.children.map(formatNode).join("");
         case "compute_clause":
         case "include_clause":
         case "list_clause":
@@ -219,9 +218,12 @@ export class NqlWorker implements INqlWorker {
       }
     };
 
-    const formattedNql = formatNode(tree.rootNode).trim();
+    const formattedNql = formatNode(tree.rootNode);
 
-    return formattedNql;
+    // Remove all dangling whitespace after coma if the next character is a newline
+    const cleanFormattedNql = formattedNql.replace(/,\s\n/g, ",\n").trim();
+
+    return cleanFormattedNql;
   }
 
   async getParseErrors(uri: string): Promise<IError[]> {
