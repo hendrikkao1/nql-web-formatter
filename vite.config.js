@@ -12,9 +12,7 @@ export default defineConfig(({ mode }) => {
       outDir: "docs",
       rollupOptions: {
         output: {
-          manualChunks: {
-            editorWorker: ["monaco-editor/esm/vs/editor/editor.worker"],
-          },
+          manualChunks: {},
         },
       },
     },

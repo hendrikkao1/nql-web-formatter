@@ -5,7 +5,7 @@ import {
   Uri,
   editor,
   languages,
-} from "monaco-editor";
+} from "monaco-editor-core";
 import { INqlWorker } from "./monaco.contribution";
 
 export abstract class Adapter {

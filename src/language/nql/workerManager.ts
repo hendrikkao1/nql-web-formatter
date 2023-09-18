@@ -1,4 +1,4 @@
-import { Uri, editor } from "monaco-editor";
+import { Uri, editor } from "monaco-editor-core";
 import { INqlWorker } from "./monaco.contribution";
 
 export class WorkerManager {

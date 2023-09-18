@@ -1,8 +1,8 @@
 import defaultValue from "./default-value";
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor-core";
 
-import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import NqlWorker from "./language/nql/nql.worker.ts?worker";
+import EditorWorker from "monaco-editor-core/esm/vs/editor/editor.worker?worker";
+import NqlWorker from "./language/nql/nql.worker?worker";
 import {
   setupMode,
   languageSelector as nqlLanguageSelector,
@@ -11,8 +11,8 @@ import {
 const isDarkMode =
   window.matchMedia &&
   window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-self.MonacoEnvironment = {
+  
+MonacoEnvironment = {
   getWorker(_: string, label: string) {
     if (label === nqlLanguageSelector) {
       return new NqlWorker();
@@ -39,7 +39,7 @@ const editor = monaco.editor.create(
     automaticLayout: true,
     minimap: {
       enabled: false,
-    }
+    },
   }
 );
 

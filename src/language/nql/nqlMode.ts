@@ -1,4 +1,4 @@
-import { IDisposable, Uri, languages } from "monaco-editor";
+import { IDisposable, Uri, languages } from "monaco-editor-core";
 import * as languageFeatures from "./languageFeatures";
 import { WorkerManager } from "./workerManager";
 import { INqlWorker } from "./monaco.contribution";

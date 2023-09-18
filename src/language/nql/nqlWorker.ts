@@ -1,4 +1,4 @@
-import { worker } from "monaco-editor";
+import { worker } from "monaco-editor-core";
 import { IError, INqlWorker, IToken } from "./monaco.contribution";
 import Parser from "web-tree-sitter";
 
