@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
       __BASE_PATH__: JSON.stringify(env.VITE_BASE_PATH),
     },
     build: {
-      outDir: "docs",
+      outDir: "dist",
       rollupOptions: {
         output: {
           manualChunks: {},
