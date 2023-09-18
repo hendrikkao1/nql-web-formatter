@@ -11,12 +11,3 @@ Experimental tool to make [Nexthink query language (NQL)](https://docs.nexthink.
 ## Known issues
 
 - `,,` is not considered a syntax error
-- Editor does not resize when resizing the viewport
-
-## TODO
-
-- Semantic variable highlighting
-- Build and deploy `main` branch with in github actions
-- Built in reporting of issues
-- Link to GitHub
-- Use tree sitter cursor for traversing a tree
