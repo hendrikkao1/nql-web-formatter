@@ -28,27 +28,39 @@ body {
   display: flex;
   width: 100dvw;
   height: 100dvh;
-}
 
-.app__editor {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-.app__toolbar {
-  padding: 0.5rem;
-  order: -1;
-  border-right: 2px solid var(--editor-border-color);
+  .app__editor {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  
+  .app__toolbar {
+    width: 48px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem;
+    order: -1;
+    border-right: 2px solid var(--editor-border-color);
+  }
 }
 
 .toolbar-button {
+  display: block;
+  padding: 0;
   background-color: transparent;
   color: var(--editor-button-color);
   border: 0;
   cursor: pointer;
   font-size: 1.75rem;
-}
 
-.toolbar-button:hover {
-  color: var(--editor-button-color-hover);
+  :hover {
+    color: var(--editor-button-color-hover);
+  }
+
+  > svg {
+    margin: 0 auto;
+    display: block;
+  }
 }
