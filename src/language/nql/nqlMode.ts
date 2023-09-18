@@ -47,6 +47,7 @@ export function setupMode(): (...uris: Uri[]) => Promise<INqlWorker> {
             [/\bsummarize\b/, "keyword"],
             [/\bto\b/, "keyword"],
             [/\bwhere\b/, "keyword"],
+            [/\bwith\b/, "keyword"],
           ],
         },
       })
