@@ -1,20 +1,21 @@
 const defaultValue = `
-devices
-
-| with web.errors during past 7d
-
-| compute
-  total_errors_device = number_of_errors.sum()
+web.page_views
+  during past 7d
 
 | where
-  total_errors_device > 10
+  application.name == "Confluence"
+
+| summarize
+  backendTime = page_load_time.backend.avg()
+  by
+  device.name
 
 | list
   device.name,
-  total_errors_device
+  backendTime
 
 | sort
-  total_errors_device
+  backendTime
   desc
 `.trim();
 
