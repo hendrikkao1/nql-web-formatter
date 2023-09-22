@@ -206,6 +206,7 @@ export class NqlWorker implements INqlWorker {
         case "sort_clause":
         case "summarize_clause":
         case "where_clause":
+        case "with_clause":
           return node.children.map(formatNode).join("");
         case ",":
           return node.text + " ";
