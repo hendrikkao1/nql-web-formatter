@@ -46,6 +46,12 @@ body {
   }
 }
 
+.toolbar-group {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
 .toolbar-button {
   display: block;
   padding: 0;
