@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor-core";
-import { Environment } from  "monaco-editor-core/esm/vs/editor/editor.api"
+import { Environment } from "monaco-editor-core/esm/vs/editor/editor.api";
 import EditorWorker from "monaco-editor-core/esm/vs/editor/editor.worker?worker";
 import defaultValue from "./default-value";
 import NqlWorker from "./language/nql/nql.worker?worker";
@@ -7,6 +7,7 @@ import {
   setupMode,
   languageSelector as nqlLanguageSelector,
 } from "./language/nql/nqlMode";
+import "./theme";
 
 declare global {
   interface Window {
@@ -40,7 +41,7 @@ const editor = monaco.editor.create(
   {
     value: defaultValue,
     language: nqlLanguageSelector,
-    theme: isDarkMode ? "vs-dark" : "vs-light",
+    theme: isDarkMode ? "nql-dark" : "nql-light",
     "semanticHighlighting.enabled": true,
     automaticLayout: true,
     minimap: {

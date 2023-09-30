@@ -101,7 +101,7 @@ export class NqlWorker implements INqlWorker {
       const tokens: {
         type: string;
         text: string;
-        modifiers: number;
+        modifiers: string[];
         startPosition: {
           column: number;
           row: number;
@@ -122,24 +122,25 @@ export class NqlWorker implements INqlWorker {
           case "int":
           case "string":
           case "table":
+          case "aggregate_function":
+          case "field_property":
             tokens.push({
               type: child.type,
               startPosition: child.startPosition,
               endPosition: child.endPosition,
               text: child.text,
-              modifiers: 0,
+              modifiers: [],
             });
             break;
           case "field_name":
-            if (isUserDefinedField(child)) {
-              tokens.push({
-                type: child.type,
-                startPosition: child.startPosition,
-                endPosition: child.endPosition,
-                text: child.text,
-                modifiers: 0,
-              });
-            }
+            tokens.push({
+              type: child.type,
+              startPosition: child.startPosition,
+              endPosition: child.endPosition,
+              text: child.text,
+              // TODO: Can this be done in the parser?
+              modifiers: isUserDefinedField(child) ? [] : ["defaultLibrary"],
+            });
             break;
           default:
             break;

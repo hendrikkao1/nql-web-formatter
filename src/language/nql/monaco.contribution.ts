@@ -1,6 +1,7 @@
 export interface IToken {
   type: string;
   text: string;
+  modifiers: string[];
   startPosition: {
     row: number;
     column: number;

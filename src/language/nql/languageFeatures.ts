@@ -19,7 +19,13 @@ const tokenTypes = [
   "strong",
   "variable",
   "type",
+  "other",
+  // Custom
+  "function",
+  "property",
 ] as const;
+
+const tokenModifiers = ["defaultLibrary"] as const;
 
 const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
   boolean: "strong",
@@ -27,13 +33,14 @@ const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
   date: "number",
   duration: "number",
   enum: "strong",
-  // field: "variable",
-  field_name: "variable",
-  // field_property: "variable",
   float: "number",
   int: "number",
   string: "string",
   table: "type",
+  aggregate_function: "function",
+  // Custom
+  field_name: "variable",
+  field_property: "property",
 };
 
 export class TokenAdapter
@@ -43,7 +50,7 @@ export class TokenAdapter
   public getLegend(): languages.SemanticTokensLegend {
     return {
       tokenTypes: tokenTypes as unknown as string[],
-      tokenModifiers: [],
+      tokenModifiers: tokenModifiers as unknown as string[],
     };
   }
 
@@ -123,12 +130,17 @@ export class TokenAdapter
           ? token.startPosition.column - prevChar
           : token.startPosition.column;
 
+      const tokenType = tokenTypes.indexOf(tokenTypeMap[token.type]);
+
+      // TODO: Set individual bits based on modifiers
+      const tokenModifier = token.modifiers.length ? 1 : 0;
+
       semanticTokens.push([
         lineDelta,
         charDelta,
         token.text.length,
-        tokenTypes.indexOf(tokenTypeMap[token.type]),
-        0,
+        tokenType,
+        tokenModifier,
       ]);
 
       prevLine = token.startPosition.row;
