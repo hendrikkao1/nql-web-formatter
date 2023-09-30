@@ -28,27 +28,10 @@ export function setupMode(): (...uris: Uri[]) => Promise<INqlWorker> {
     );
 
     providers.push(
-      languages.setMonarchTokensProvider(languageSelector, {
-        tokenizer: {
-          root: [
-            [/\band\b/, "keyword"],
-            [/\basc\b/, "keyword"],
-            [/\bby\b/, "keyword"],
-            [/\bcompute\b/, "keyword"],
-            [/\bdesc\b/, "keyword"],
-            [/\bduring\b \bpast\b/, "keyword"],
-            [/\bfrom\b/, "keyword"],
-            [/\binclude\b/, "keyword"],
-            [/\blist\b/, "keyword"],
-            [/\bor\b/, "keyword"],
-            [/\bsort\b/, "keyword"],
-            [/\bsummarize\b/, "keyword"],
-            [/\bto\b/, "keyword"],
-            [/\bwhere\b/, "keyword"],
-            [/\bwith\b/, "keyword"],
-          ],
-        },
-      })
+      languages.setMonarchTokensProvider(
+        languageSelector,
+        languageFeatures.languageDefinition
+      )
     );
 
     providers.push(

@@ -264,3 +264,25 @@ export class DiagnosticsAdapter extends Adapter {
     );
   }
 }
+
+export const languageDefinition: languages.IMonarchLanguage = {
+  tokenizer: {
+    root: [
+      [/\band\b/, "keyword"],
+      [/\basc\b/, "keyword"],
+      [/\bby\b/, "keyword"],
+      [/\bcompute\b/, "keyword"],
+      [/\bdesc\b/, "keyword"],
+      [/\bduring\b \bpast\b/, "keyword"],
+      [/\bfrom\b/, "keyword"],
+      [/\binclude\b/, "keyword"],
+      [/\blist\b/, "keyword"],
+      [/\bor\b/, "keyword"],
+      [/\bsort\b/, "keyword"],
+      [/\bsummarize\b/, "keyword"],
+      [/\bto\b/, "keyword"],
+      [/\bwhere\b/, "keyword"],
+      [/\bwith\b/, "keyword"],
+    ],
+  },
+};
