@@ -38,8 +38,6 @@ export function setupMode(): (...uris: Uri[]) => Promise<INqlWorker> {
             [/\bdesc\b/, "keyword"],
             [/\bduring\b \bpast\b/, "keyword"],
             [/\bfrom\b/, "keyword"],
-            [/\bin\b/, "keyword"],
-            [/\bin\b/, "keyword"],
             [/\binclude\b/, "keyword"],
             [/\blist\b/, "keyword"],
             [/\bor\b/, "keyword"],
