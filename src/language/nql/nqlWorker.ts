@@ -114,6 +114,7 @@ export class NqlWorker implements INqlWorker {
 
       for (const child of node.children) {
         switch (child.type) {
+          case "enum":
           case "boolean":
           case "date_time":
           case "date":
