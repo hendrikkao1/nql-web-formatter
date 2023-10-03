@@ -1,0 +1,15 @@
+users
+
+| include
+  dex.scores
+  during past 24h
+
+| compute
+  DEX_score = score.value.avg(),
+  c1 = count()
+
+| where
+  c1 > 0
+
+| summarize
+  Overall_DEX_score = DEX_score.avg()
