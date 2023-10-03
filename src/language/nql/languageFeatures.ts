@@ -23,12 +23,14 @@ const tokenTypes = [
   // Custom
   "function",
   "property",
+  "boolean",
+  "control",
 ] as const;
 
 const tokenModifiers = ["defaultLibrary"] as const;
 
 const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
-  boolean: "strong",
+  boolean: "boolean",
   date_time: "number",
   date: "number",
   duration: "number",
@@ -283,18 +285,19 @@ export const languageDefinition: languages.IMonarchLanguage = {
       [/\band\b/, "keyword"],
       [/\basc\b/, "keyword"],
       [/\bby\b/, "keyword"],
-      [/\bcompute\b/, "keyword"],
+      [/\bcompute\b/, "control"],
       [/\bdesc\b/, "keyword"],
       [/\bduring\b \bpast\b/, "keyword"],
       [/\bfrom\b/, "keyword"],
-      [/\binclude\b/, "keyword"],
-      [/\blist\b/, "keyword"],
+      [/\binclude\b/, "control"],
+      [/\blist\b/, "control"],
+      [/\bon\b/, "keyword"],
       [/\bor\b/, "keyword"],
-      [/\bsort\b/, "keyword"],
-      [/\bsummarize\b/, "keyword"],
+      [/\bsort\b/, "control"],
+      [/\bsummarize\b/, "control"],
       [/\bto\b/, "keyword"],
-      [/\bwhere\b/, "keyword"],
-      [/\bwith\b/, "keyword"],
+      [/\bwhere\b/, "control"],
+      [/\bwith\b/, "control"],
     ],
   },
 };
