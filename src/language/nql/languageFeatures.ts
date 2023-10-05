@@ -39,8 +39,8 @@ const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
   int: "number",
   string: "string",
   table: "type",
-  aggregate_function: "function",
   // Custom
+  aggregate_function: "function",
   field_name: "variable",
   field_property: "property",
 };
@@ -287,7 +287,7 @@ export const languageDefinition: languages.IMonarchLanguage = {
       [/\bby\b/, "keyword"],
       [/\bcompute\b/, "control"],
       [/\bdesc\b/, "keyword"],
-      [/\bduring\b \bpast\b/, "keyword"],
+      [/\bduring past\b/, "keyword"],
       [/\bfrom\b/, "keyword"],
       [/\binclude\b/, "control"],
       [/\blist\b/, "control"],
