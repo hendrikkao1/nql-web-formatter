@@ -180,7 +180,6 @@ export class NqlWorker implements INqlWorker {
           return "\n\n" + node.text;
         case "and":
         case "by":
-        case "duration":
         case "field":
         case "field_name":
         case "or":
@@ -188,6 +187,8 @@ export class NqlWorker implements INqlWorker {
         case "table":
         case "time_frame":
           return "\n  " + node.text;
+        case "duration":
+          return " " + node.text;
         case "addition":
         case "alias":
         case "division":
