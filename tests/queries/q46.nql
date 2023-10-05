@@ -1,0 +1,16 @@
+workflow.executions
+  during past 24h
+
+| where
+  status == failure
+
+| list
+  request_time,
+  workflow.name,
+  device.name,
+  status,
+  status_details
+
+| sort
+  request_time
+  desc

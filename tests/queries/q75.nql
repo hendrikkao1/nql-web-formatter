@@ -1,0 +1,20 @@
+users
+
+| with
+  execution.events
+  during past 7d
+
+| where
+  binary.name == "teams.exe"
+
+| compute
+  total_connections = number_of_established_connections.sum() + number_of_rejected_connections.sum() + number_of_no_service_connections.sum(),
+  total_focus_time = focus_time.sum()
+
+| where
+  avg_focus_time > 1min
+  and
+  total_connections > 150
+
+| list
+  ad.email_address

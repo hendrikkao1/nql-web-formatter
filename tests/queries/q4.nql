@@ -1,0 +1,18 @@
+users
+
+| with
+  dex.scores
+  during past 24h
+
+| compute
+  DEX_score = score.value.avg()
+
+| list
+  name,
+  DEX_score
+
+| sort
+  DEX_score
+  asc
+
+| limit 50

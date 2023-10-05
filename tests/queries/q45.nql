@@ -1,0 +1,14 @@
+workflow.executions
+
+| where
+  device.name == "devicehostname"
+
+| list
+  request_time,
+  workflow.name,
+  device.name,
+  status
+
+| sort
+  request_time
+  desc

@@ -1,0 +1,10 @@
+web.transactions
+
+| summarize
+  nb_transactions = number_of_transactions.sum()
+  by
+  application.name
+
+| sort
+  nb_transactions
+  desc

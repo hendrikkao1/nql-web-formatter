@@ -1,0 +1,14 @@
+users
+
+| include
+  execution.events
+  during past 24h
+
+| where
+  binary.name == "nxtray*"
+
+| compute
+  c1 = binary.name.count()
+
+| where
+  c1 > 0

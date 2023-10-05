@@ -1,0 +1,16 @@
+devices
+
+| include
+  execution.events
+  during past 7d
+
+| where
+  binary.name == "outlook.exe"
+
+| compute
+  total_incoming_traffic = incoming_traffic.sum()
+
+| list
+  device.name,
+  device.entity,
+  total_incoming_traffic

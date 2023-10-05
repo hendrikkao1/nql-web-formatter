@@ -1,0 +1,16 @@
+users
+
+| include
+  collaboration.sessions
+  during past 5d
+
+| compute
+  max_duration = duration.max()
+
+| where
+  max_duration < 15min
+  or
+  max_duration == null
+
+| list
+  ad.email_address

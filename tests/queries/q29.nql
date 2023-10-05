@@ -1,0 +1,11 @@
+devices
+
+| with
+  device_performance.events
+  during past 124h
+
+| compute
+  free_space_on_system_drive = system_drive_free_space.avg()
+
+| where
+  free_space_on_system_drive < 2000MB

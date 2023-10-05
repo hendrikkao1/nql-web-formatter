@@ -1,0 +1,5 @@
+web.page_views
+  during past 7d
+
+| summarize
+  backend_dur_ratio = page_load_time.backend.sum() / page_load_time.overall.sum()

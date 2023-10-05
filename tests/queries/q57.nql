@@ -1,0 +1,19 @@
+campaign.responses
+
+| where
+  user.name == "johndoe@DOMAIN"
+
+| summarize
+  cnt = count()
+  by
+  campaign.name,
+  user.username,
+  campaign.response.state,
+  campaign.response.state_details
+
+| list
+  user.name,
+  campaign.name,
+  cnt,
+  campaign.response.state,
+  campaign.response.state_details

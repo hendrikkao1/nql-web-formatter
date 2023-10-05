@@ -1,0 +1,10 @@
+campaign.#my_campaign.responses
+
+| where
+  state == answered
+
+| list
+  user.name,
+  state,
+  state_details,
+  number_answered_questions

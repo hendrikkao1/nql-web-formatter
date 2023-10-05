@@ -1,0 +1,28 @@
+devices
+
+| with
+  session.logins
+  during past 24h
+
+| compute
+  total_devices = device.count(),
+  avg_time_until_desktop_ready = time_until_desktop_is_ready.avg(),
+  avg_time_until_desktop_visible = time_until_desktop_is_visible.avg()
+
+| include
+  session.logins
+  during past 24h
+
+| where
+  time_until_desktop_is_visible >= 60s
+
+| compute
+  number_of_device_with_long_login = device.count()
+
+| summarize
+  percentage_of_devices_with_issue = number_of_device_with_long_login.sum() * 100 / total_devices.sum(),
+  average_time_until_desktop_ready = avg_time_until_desktop_ready.avg(),
+  average_time_until_desktop_visible = avg_time_until_desktop_visible.avg(),
+  number_of_devices_with_issue = number_of_device_with_long_login.sum()
+  by
+  public_ip.country

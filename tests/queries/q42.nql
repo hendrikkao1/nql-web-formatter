@@ -1,0 +1,14 @@
+workflow.executions
+  during past 7d
+
+|list
+  request_id,
+  request_time,
+  workflow.name,
+  device.name,
+  status,
+  status_details
+
+|sort
+  request_time
+  desc

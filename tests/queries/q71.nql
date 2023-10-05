@@ -1,0 +1,34 @@
+Devices
+  during past 30d
+
+| include
+  software_metering.events
+  during past 90d
+
+| where
+  meter_configuration.name == "visio"
+
+| compute
+  desktop_app_usage = desktop_focus_time.sum()
+
+| include
+  package.installed_packages
+
+| where
+  Package.name == "*visio*"
+
+| where
+  package.type == program
+
+| compute
+  packages_installed = device.count()
+
+| where
+  desktop_app_usage == NULL
+  and
+  packages_installed > 0
+
+| list
+  device.name,
+  desktop_app_usage,
+  packages_installed

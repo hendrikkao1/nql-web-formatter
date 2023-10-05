@@ -1,0 +1,12 @@
+execution.crashes
+  during past 7d
+
+|where
+  binary.name = "zscaler"
+
+| summarize
+  crashes = count(),
+  devices_with_crashes = device.count(),
+  versions_with_crashes = binary.version.count()
+  by
+  1d

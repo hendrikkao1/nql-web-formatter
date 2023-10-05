@@ -1,0 +1,11 @@
+campaign.#RemoteWorkDemo.responses
+
+| where
+  campaign.status == published
+  and
+  state == targeted
+  and
+  state_details != fully
+
+| list
+  user.ad.email_address

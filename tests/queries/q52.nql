@@ -1,0 +1,4 @@
+users
+
+| where
+  ad.department == "Finance"

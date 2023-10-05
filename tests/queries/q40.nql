@@ -1,0 +1,14 @@
+web.events
+  during past 7d
+
+| where
+  application.name == "Salesforce Lightning"
+
+| summarize
+  average_department_usage_time_per_user = duration.sum()/ user.name.count()
+  by
+  ad.department
+
+| sort
+  average_department_usage_time_per_user
+  desc

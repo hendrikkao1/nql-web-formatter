@@ -1,0 +1,8 @@
+device_performance.system_crashes
+
+| where
+  error_code == 335
+  or
+  error_code == 49
+  and
+  label in ["TIMEOUT"]

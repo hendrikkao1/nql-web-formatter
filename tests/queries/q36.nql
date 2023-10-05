@@ -1,0 +1,11 @@
+device_performance.system_crashes
+  during past 7d
+
+| summarize
+  number_of_crashes = number_of_system_crashes.sum()
+  by
+  label
+
+| sort
+  number_of_crashes
+  desc

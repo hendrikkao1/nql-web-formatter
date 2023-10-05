@@ -1,0 +1,8 @@
+users
+
+| with
+  package.installations
+  during past 1d
+
+| where
+  package.name in ["MS Teams", "Zoom"]

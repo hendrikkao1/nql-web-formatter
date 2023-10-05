@@ -1,0 +1,9 @@
+campaign.responses
+
+| where
+  campaign.name == "Remote Work Demo"
+
+| list
+  response.historical_time,
+  response.historical_state,
+  response.historical_state_details

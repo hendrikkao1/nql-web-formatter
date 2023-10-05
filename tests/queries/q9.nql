@@ -1,0 +1,10 @@
+device_performance.events
+  during past 30min
+
+| where
+  device.virtualization.desktop_pool != null
+
+| summarize
+  Average_cpu_queue_length = cpu_queue_length.avg() / number_of_logical_processors.avg()
+  by
+  device.virtualization.desktop_pool

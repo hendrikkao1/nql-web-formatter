@@ -1,0 +1,15 @@
+web.page_views
+  during past 7d
+
+| summarize
+  backend_duration = page_load_time.backend.avg(),
+  client_duration = page_load_time.client.avg(),
+  network_duration = page_load_time.network.avg()
+  by
+  1d
+
+| list
+  end_time,
+  backend_duration,
+  client_duration,
+  network_duration

@@ -1,0 +1,15 @@
+workflow.executions
+
+| where
+  workflow.name == "Name of workflow"
+
+| list
+  request_id,
+  request_time,
+  workflow.name,
+  status,
+  status_details
+
+| sort
+  request_time
+  desc

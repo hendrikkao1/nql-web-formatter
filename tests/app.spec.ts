@@ -7,7 +7,9 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Editor formatting and highlighting", () => {
   queries.forEach((query) => {
-    test("should format and highlight the query", async ({ page }) => {
+    test(`should format and highlight the query: ${query.file}`, async ({
+      page,
+    }) => {
       const editor = page.getByRole("code");
       const formatButton = page.getByTitle(/Format document/);
       const singleLineQuery = query.content.replaceAll("\n", " ");

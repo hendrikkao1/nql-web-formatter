@@ -1,0 +1,23 @@
+users
+
+| include
+  web.page_views
+
+| where
+  experience_level == frustrating
+
+| compute
+  frustrating_cnt = user.count()
+
+| include
+  web.page_views
+
+| where
+  experience_level == good
+
+| compute
+  good_cnt = user.count()
+
+| summarize
+  good = good_cnt.sum(),
+  frustrating = frustrating_cnt.sum()

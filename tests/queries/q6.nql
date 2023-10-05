@@ -1,0 +1,28 @@
+application.applications
+
+| with
+  web.page_views
+  during past 60min
+
+| where
+  is_soft_navigation = false
+
+| compute
+  total_number_of_page_views = number_of_page_views.sum(),
+  all_users = user.count()
+
+| with
+  web.errors
+  during past 60min
+
+| compute
+  number_page_views_with_error = error.number_of_errors.sum(),
+  users_with_errors = user.count()
+
+| summarize
+  web_errors_ratio = number_page_views_with_error.sum() * 100 / total_number_of_page_views.sum(),
+  number_of_errors = number_page_views_with_error.sum(),
+  users_with_issues = users_with_errors.sum(),
+  ratio_of_users_with_issues = users_with_errors.sum() * 100 / all_users.sum()
+  by
+  application.name

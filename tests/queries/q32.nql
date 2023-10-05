@@ -1,0 +1,10 @@
+package.uninstallations
+
+| where
+  package.name == "Nexthink Collector"
+
+| list
+  time,
+  device.name,
+  package.name,
+  package.version

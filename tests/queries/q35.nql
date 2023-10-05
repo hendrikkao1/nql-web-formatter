@@ -1,0 +1,11 @@
+package.installed_packages
+
+| summarize
+  number_of_packages_installed = count()
+  by
+  package.name
+
+| where
+  number_of_packages_installed > 0
+  and
+  number_of_packages_installed < 5

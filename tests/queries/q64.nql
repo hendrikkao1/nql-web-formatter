@@ -1,0 +1,16 @@
+users
+
+| include
+  campaign.#service_sentiment.responses
+
+| where
+  state == answered
+
+| compute
+  last_satisfaction = answers.sentiment.label.last(),
+  last_answer_on_device = device.name.last()
+
+| list
+  user.name,
+  last_satisfaction,
+  last_answer_on_device

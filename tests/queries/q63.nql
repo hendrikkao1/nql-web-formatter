@@ -1,0 +1,9 @@
+campaign.#my_campaign.responses
+  during past 30d
+
+| where
+  answers.how_often.label = "always"
+
+| list
+  user.name,
+  time

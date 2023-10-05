@@ -1,0 +1,12 @@
+campaign.#my_campaign.responses
+
+| summarize
+  cnt = request_id.count()
+  by
+  answers.vpn_quality.label,
+  state,
+  state_details
+
+| sort
+  cnt
+  desc

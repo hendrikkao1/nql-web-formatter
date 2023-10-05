@@ -1,0 +1,17 @@
+users
+
+| include
+  campaign.#dex_campaign_name.responses
+
+| compute
+  number_of_requests = count()
+
+| list
+  sid,
+  number_of_requests
+
+| sort
+  number_of_requests
+  asc
+
+| limit 50

@@ -1,0 +1,22 @@
+devices
+
+| include
+  collaboration.sessions
+
+| where
+  video.quality == poor
+  or
+  audio.quality == poor
+
+| compute
+  num_poor_quality_sessions = id.count()
+
+| include
+  collaboration.sessions
+
+| compute
+  num_total_sessions = id.count()
+
+| summarize
+  poor_quality = num_poor_quality_sessions.sum(),
+  acceptable_quality = num_total_sessions.sum()

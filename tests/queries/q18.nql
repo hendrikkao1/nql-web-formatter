@@ -1,0 +1,11 @@
+devices
+
+| include
+  execution.crashes
+
+| compute
+  crash_cnt = device.count()
+
+| summarize
+  devices_with_crashes = crash_cnt.sum(),
+  total_devices = count()

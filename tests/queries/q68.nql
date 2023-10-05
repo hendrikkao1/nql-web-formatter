@@ -1,0 +1,18 @@
+remote_action.executions
+  during past 60min
+
+| where
+  remote_action.name == "Remote-Action-Name"
+
+| list
+  remote_action.name,
+  device.name,
+  trigger_method,
+  time,
+  status,
+  status_details,
+  outputs
+
+| sort
+  time
+  desc

@@ -1,0 +1,13 @@
+devices
+
+| include
+  package.installed_packages
+
+| where
+  package.name == "Nexthink Collector"
+
+| compute
+  number_of_package_installed = count()
+
+| where
+  number_of_package_installed == 0

@@ -1,0 +1,21 @@
+users
+  during past 30d
+
+| with
+  software_metering.events
+  during past 90d
+
+| where
+  meter_configuration.name == "*miro*"
+
+| where
+  web_is_used == TRUE
+
+| compute
+  event_where_web_was_used = count()
+
+| where
+  event_where_web_was_used > 0
+
+| summarize
+  users_using_application = count()

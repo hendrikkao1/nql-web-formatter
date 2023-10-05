@@ -1,0 +1,29 @@
+users
+
+| include
+  dex.application_scores
+  during past 24h
+
+| where
+  application.name == "miro"
+  and
+  node.type == application
+
+| compute
+  application_score_per_user = value.avg()
+
+| include
+  dex.application_scores
+  during past 24h
+
+| where
+  application.name == "miro"
+  and
+  node.type == page_loads
+
+| compute
+  page_load_score_per_user = value.avg()
+
+| summarize
+  Overall_application_score = application_score_per_user.avg(),
+  Overall_page_load_score = page_load_score_per_user.avg()

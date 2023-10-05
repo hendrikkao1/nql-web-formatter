@@ -1,0 +1,15 @@
+campaign.responses
+
+| where
+  campaign.name != null
+
+| summarize
+  number_of_responses = count()
+  by
+  campaign.name,
+  state,
+  state_details
+
+| sort
+  campaign.name
+  asc

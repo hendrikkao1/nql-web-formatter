@@ -1,0 +1,15 @@
+campaign.responses
+
+| where
+  campaign.name == "Remote Work Demo"
+
+| list
+  response.trigger_method,
+  user.name,
+  response.time,
+  campaign.response.first_planned,
+  campaign.response.first_targeted,
+  campaign.response.first_displayed,
+  state,
+  state_details,
+  response.number_answered_questions

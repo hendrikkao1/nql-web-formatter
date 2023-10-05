@@ -1,0 +1,5 @@
+devices
+  during past 7d
+
+| list
+  remote_action.get_battery_status.execution.outputs.BatteryHealth

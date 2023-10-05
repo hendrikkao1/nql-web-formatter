@@ -1,0 +1,13 @@
+devices
+
+| where
+  device.public_ip.isp != null
+
+| summarize
+  devices = device.name.count()
+  by
+  device.public_ip.isp
+
+| sort
+  devices
+  desc

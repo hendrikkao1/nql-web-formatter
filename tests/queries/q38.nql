@@ -1,0 +1,10 @@
+device_performance.events
+  during past 14d
+
+| where
+  system_drive_free_space.avg <= 1000MB
+
+| summarize
+  devices_with_low_disk_space = device.count()
+  by
+  1d

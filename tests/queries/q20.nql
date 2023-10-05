@@ -1,0 +1,5 @@
+dex.scores
+
+| summarize
+  score = value.avg(),
+  total = 100

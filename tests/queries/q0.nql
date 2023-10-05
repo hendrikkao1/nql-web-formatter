@@ -1,0 +1,18 @@
+users
+
+| include
+  dex.scores
+  on Jun 17, 2023
+
+| where
+  context.location.country == "Switzerland"
+
+| compute
+  Virtualization_score = endpoint.virtual_session_lag_value.avg(),
+  c1 = count()
+
+| where
+  c1 > 0
+
+| summarize
+  Overall_virtualization_score = Virtualization_score.avg()

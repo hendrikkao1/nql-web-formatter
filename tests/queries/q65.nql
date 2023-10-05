@@ -1,0 +1,20 @@
+users
+
+| with
+  campaign.#ticket_satisfaction.responses
+
+| where
+  state == answered
+  and
+  parameters.issue_type == "Incident"
+
+| compute
+  last_satisfaction = answers.sentiment.label.last(),
+  last_comment = answers.sentiment.comment.last(),
+  ticket_number = parameters.ticket_number.last()
+
+| list
+  ticket_number,
+  last_satisfaction,
+  last_comment,
+  user.name

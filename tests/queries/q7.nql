@@ -1,0 +1,12 @@
+execution.crashes
+  during past 24h
+
+| summarize
+  total_number_of_crashes = count(),
+  devices_with_crashes = device.count()
+  by
+  binary.name
+
+| sort
+  total_number_of_crashes
+  desc

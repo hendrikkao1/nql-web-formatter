@@ -1,0 +1,7 @@
+devices
+
+| with
+  package.installed_packages
+
+| where
+  package.name == "Nexthink Collector"

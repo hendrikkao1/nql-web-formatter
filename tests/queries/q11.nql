@@ -1,0 +1,5 @@
+web.errors
+  during past 7d
+
+| summarize
+  total_errors = number_of_errors.sum()

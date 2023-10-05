@@ -1,0 +1,17 @@
+devices
+
+| include
+  device_performance.hard_resets
+
+| compute
+  hard_reset_cnt = number_of_hard_resets.sum()
+
+| include
+  device_performance.events
+
+| compute
+  total_cnt = count()
+
+| summarize
+  no_hard_resets = total_cnt.sum() - hard_reset_cnt.sum(),
+  hard_resets = hard_reset_cnt.sum()

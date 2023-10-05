@@ -1,0 +1,13 @@
+devices
+  during past 24h
+
+| include
+  device_performance.system_crashes
+
+| compute
+  system_crash_count = number_of_system_crashes.sum(),
+  crashing_devices = device.count()
+
+| summarize
+  ratio_of_devices_crashing = crashing_devices.sum() * 100 / count(),
+  total_system_crashes = system_crash_count.sum()

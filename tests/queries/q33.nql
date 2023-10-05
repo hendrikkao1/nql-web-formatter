@@ -1,0 +1,10 @@
+package.installed_packages
+
+| summarize
+  number_of_packages_installed = count()
+  by
+  package.name
+
+| sort
+  number_of_packages_installed
+  desc

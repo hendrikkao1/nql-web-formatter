@@ -1,0 +1,14 @@
+device_performance.hard_resets
+  during past 7d
+
+| summarize
+  num_hard_resets = number_of_hard_resets.sum(),
+  num_devices = device.count()
+  by
+  device.operating_system.platform,
+  device.hardware.manufacturer,
+  device.hardware.model
+
+| sort
+  num_hard_resets
+  desc

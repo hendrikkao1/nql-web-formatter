@@ -1,0 +1,8 @@
+alert.alerts
+
+| where
+  monitor.priority == high
+  or
+  monitor.name == "MS Teams crashes for SD"
+  and
+  monitor.tags contains "servicenow"

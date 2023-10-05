@@ -1,0 +1,10 @@
+campaign.responses
+
+| where
+  campaign.name == "Remote Work Demo"
+
+| list
+  user.name,
+  response.time,
+  state,
+  state_details

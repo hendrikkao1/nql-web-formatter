@@ -1,0 +1,15 @@
+execution.crashes
+  during past 7d
+
+| summarize
+  crashes = count(),
+  devices_with_crashes = device.count(),
+  versions_with_crashes = binary.version.count()
+  by
+  binary.name,
+  binary.product_name,
+  binary.platform
+
+| sort
+  devices_with_crashes
+  desc

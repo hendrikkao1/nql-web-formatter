@@ -1,0 +1,23 @@
+devices
+  during past 7d
+
+| include
+  device_performance.events
+  during past 7d
+
+| compute
+  used_memory_ = event.used_memory.avg(),
+  used_memory_percentage = event.used_memory.avg()*100/device.hardware.memory.avg()
+
+| where
+  used_memory_percentage > 75
+
+| list
+  device.name,
+  device.entity,
+  device.hardware.model,
+  device.hardware.type,
+  device.operating_system.name,
+  device.hardware.memory,
+  used_memory_,
+  used_memory_percentage

@@ -1,0 +1,21 @@
+Users
+  during past 30d
+
+| with
+  software_metering.events
+  during past 90d
+
+| where
+  meter_configuration.name == "*office*"
+
+| compute
+  desktop_app_usage = desktop_focus_time.sum()
+
+| where
+  desktop_app_usage != NULL
+  and
+  desktop_app_usage < 2h
+
+| list
+  user.name,
+  desktop_app_usage

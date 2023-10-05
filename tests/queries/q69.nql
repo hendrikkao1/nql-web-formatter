@@ -1,0 +1,5 @@
+remote_action.get_battery_status.executions
+
+| list
+  device.name,
+  outputs.BatteryHealth

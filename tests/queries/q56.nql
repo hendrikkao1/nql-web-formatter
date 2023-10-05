@@ -1,0 +1,17 @@
+campaign.responses
+
+| where
+  campaign.name == "Remote Work Demo"
+
+| summarize
+  cnt = count()
+  by
+  user.name,
+  campaign.response.state,
+  campaign.response.state_details
+
+| list
+  user.name,
+  cnt,
+  campaign.response.state,
+  campaign.response.state_details

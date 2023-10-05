@@ -1,0 +1,17 @@
+users
+
+| with
+  execution.crashes
+  during past 5d
+
+| where
+  binary.name in ["*zscaler*"]
+
+| compute
+  total_crashes = number_of_crashes.sum()
+
+| where
+  total_crashes > 10
+
+| list
+  ad.city

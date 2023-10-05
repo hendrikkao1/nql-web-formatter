@@ -1,0 +1,14 @@
+web.errors
+  during past 1h
+
+| where
+  application.name in ["Jenkins"]
+
+| where
+  error.code !in [405, 404, 403]
+
+| summarize
+  nr_of_devices_impacted = device.count(),
+  nr_of_errors = count()
+  by
+  label

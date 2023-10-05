@@ -1,0 +1,15 @@
+workflow.executions
+
+| where
+  workflow.nql_id == "#service_restart_and_repair"
+
+| list
+  request_id,
+  request_time,
+  workflow.name,
+  status,
+  status_details
+
+| sort
+  request_time
+  desc

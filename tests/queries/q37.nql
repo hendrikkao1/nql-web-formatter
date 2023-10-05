@@ -1,0 +1,11 @@
+device_performance.events
+  during past 7d
+
+| summarize
+  nb_devices = device.count()
+  by
+  1d
+
+| sort
+  start_time
+  asc

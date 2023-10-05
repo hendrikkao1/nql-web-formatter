@@ -1,0 +1,13 @@
+campaign.#my_campaign.responses
+
+| where
+  state in [answered, declined]
+
+| summarize
+  cnt_responses = request_id.count()
+  by
+  state
+
+| list
+  state,
+  cnt_responses
