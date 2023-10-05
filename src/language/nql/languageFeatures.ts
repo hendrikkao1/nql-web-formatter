@@ -291,6 +291,7 @@ export const languageDefinition: languages.IMonarchLanguage = {
       [/\bfrom\b/, "keyword"],
       [/\binclude\b/, "control"],
       [/\blist\b/, "control"],
+      [/\blimit\b/, "keyword"],
       [/\bon\b/, "keyword"],
       [/\bor\b/, "keyword"],
       [/\bsort\b/, "control"],
