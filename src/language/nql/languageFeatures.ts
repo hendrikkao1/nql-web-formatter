@@ -44,6 +44,7 @@ const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
   aggregate_function: "function",
   field_name: "variable",
   field_property: "property",
+  aggregate_field: "property",
 };
 
 export class TokenAdapter
