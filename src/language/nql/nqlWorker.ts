@@ -125,6 +125,7 @@ export class NqlWorker implements INqlWorker {
           case "table":
           case "aggregate_function":
           case "field_property":
+          case "byte":
             tokens.push({
               type: child.type,
               startPosition: child.startPosition,

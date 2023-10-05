@@ -31,6 +31,7 @@ const tokenModifiers = ["defaultLibrary"] as const;
 
 const tokenTypeMap: Record<string, (typeof tokenTypes)[number]> = {
   boolean: "boolean",
+  byte: "number",
   date_time: "number",
   date: "number",
   duration: "number",
