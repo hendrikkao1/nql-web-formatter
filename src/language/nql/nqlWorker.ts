@@ -146,6 +146,7 @@ export class NqlWorker implements INqlWorker {
             });
             break;
           default:
+            console.log("Unhandled node type: ", child.type);
             break;
         }
 
@@ -204,6 +205,7 @@ export class NqlWorker implements INqlWorker {
         case "subtraction":
           return " " + node.text + " ";
         case "clause":
+          return node.children.map(formatNode).join("");
         case "compute_clause":
         case "include_clause":
         case "list_clause":
@@ -212,6 +214,9 @@ export class NqlWorker implements INqlWorker {
         case "summarize_clause":
         case "where_clause":
         case "with_clause":
+          if (node.hasError()) {
+            return node.text;
+          }
           return node.children.map(formatNode).join("");
         case ",":
           return node.text + " ";
