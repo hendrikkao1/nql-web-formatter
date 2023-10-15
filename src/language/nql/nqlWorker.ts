@@ -172,25 +172,89 @@ export class NqlWorker implements INqlWorker {
 
     const tree = parser.parse(document);
 
-    const formatNode = (node: Parser.SyntaxNode): string => {
-      switch (node.type) {
-        case "source_file":
-        case "query":
-          return node.children.map(formatNode).join("");
-        case "pipe":
-          return "\n\n" + node.text;
-        case "and":
-        case "by":
-        case "field":
+    const checkIfNodeHasParent = (
+      node: Parser.SyntaxNode,
+      type: string
+    ): boolean => {
+      if (!node.parent) {
+        return false;
+      }
+
+      if (node.parent.type === type) {
+        return true;
+      }
+
+      return checkIfNodeHasParent(node.parent, type);
+    };
+
+    const checkIfNodeHasPreviousSibling = (
+      node: Parser.SyntaxNode,
+      type: string
+    ): boolean => {
+      if (!node.previousSibling) {
+        return false;
+      }
+
+      if (node.previousSibling.type === type) {
+        return true;
+      }
+
+      return checkIfNodeHasPreviousSibling(node.previousSibling, type);
+    };
+
+    const padLeft = (str: string, len: number, char: string) =>
+      char.repeat(len) + str;
+
+    const padLeftSpace = (str: string, len: number = 1) =>
+      padLeft(str, len, " ");
+
+    const padLeftNewLine = (str: string, len: number = 1) =>
+      padLeft(str, len, "\n");
+
+    const padRight = (str: string, len: number, char: string) =>
+      str + char.repeat(len);
+
+    const padRightSpace = (str: string, len: number = 1) =>
+      padRight(str, len, " ");
+
+    const padRightNewLine = (str: string, len: number = 1) =>
+      padRight(str, len, "\n");
+
+    function joinLeafNodes(node: Parser.SyntaxNode): string {
+      const type = node.type;
+      const text = node.text.trim();
+
+      switch (type) {
         case "field_name":
-        case "or":
-        case "sort_order":
-        case "table":
+          if (checkIfNodeHasParent(node, "expression")) {
+            return text;
+          }
+          return padLeftNewLine(padLeftSpace(text, 2));
         case "time_frame":
-          return "\n  " + node.text;
-        case "duration":
-          return " " + node.text;
-        case "addition":
+          return padLeftNewLine(padLeftSpace(text, 2));
+        case "clause":
+          return padLeftNewLine(node.children.map(joinLeafNodes).join(""), 2);
+        case "compute_clause":
+        case "include_clause":
+        case "list_clause":
+        case "limit_clause":
+        case "select_clause":
+        case "sort_clause":
+        case "summarize_clause":
+        case "where_clause":
+        case "with_clause":
+          return padLeftSpace(node.children.map(joinLeafNodes).join(""));
+        case "table":
+          return padLeftNewLine(padLeftSpace(text, 2));
+        case "and":
+        case "or":
+          return padLeftNewLine(padLeftSpace(text, 2));
+        case "by":
+          return padLeftNewLine(padLeftSpace(padRightSpace(text), 2));
+        case "limit":
+          return padRightSpace(text);
+        case "sort_order":
+          return padLeftNewLine(padLeftSpace(text, 2));
         case "alias":
         case "division":
         case "equals":
@@ -203,33 +267,29 @@ export class NqlWorker implements INqlWorker {
         case "not_equals":
         case "not_in_array":
         case "subtraction":
-          return " " + node.text + " ";
-        case "clause":
-          return node.children.map(formatNode).join("");
-        case "compute_clause":
-        case "include_clause":
-        case "list_clause":
-        case "select_clause":
-        case "sort_clause":
-        case "summarize_clause":
-        case "where_clause":
-        case "with_clause":
-          if (node.hasError()) {
-            return node.text;
-          }
-          return node.children.map(formatNode).join("");
+        case "addition":
+          return padRightSpace(padLeftSpace(text));
+        case "duration":
+        case "byte":
+        case "int":
+        case "string":
+          return text;
         case ",":
-          return node.text + " ";
-        case "ERROR":
-          return node.text;
-        default:
-          // Just clean up whitespace for the time being
-          console.warn(`TODO: Unhandled node type: ${node.type}`);
-          return node.text.replace(/\s+/g, " ");
+          return padRightSpace(text);
+        case "pipe":
+          return text;
       }
-    };
 
-    const formattedNql = formatNode(tree.rootNode);
+      if (!node.children.length) {
+        return text;
+      }
+
+      const childValues = node.children.map(joinLeafNodes);
+
+      return childValues.join("");
+    }
+
+    const formattedNql = joinLeafNodes(tree.rootNode);
 
     // Remove all dangling whitespace after coma if the next character is a newline
     const cleanFormattedNql = formattedNql.replace(/,\s\n/g, ",\n").trim();
