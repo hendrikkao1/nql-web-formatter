@@ -17,7 +17,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "monaco-editor-core": "^0.40.0",
+    "monaco-editor-core": "^0.44.0",
     "normalize.css": "^8.0.1",
     "web-tree-sitter": "^0.20.8"
   }
