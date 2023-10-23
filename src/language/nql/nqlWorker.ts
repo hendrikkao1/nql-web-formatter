@@ -278,6 +278,10 @@ export class NqlWorker implements INqlWorker {
           return padRightSpace(text);
         case "pipe":
           return text;
+        case "expression_parenthesized_expression":
+          return padLeftNewLine(
+            padLeftSpace(node.children.map(joinLeafNodes).join(""), 4)
+          );
       }
 
       if (!node.children.length) {
