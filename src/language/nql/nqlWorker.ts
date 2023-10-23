@@ -217,9 +217,6 @@ export class NqlWorker implements INqlWorker {
     const padRightSpace = (str: string, len: number = 1) =>
       padRight(str, len, " ");
 
-    const padRightNewLine = (str: string, len: number = 1) =>
-      padRight(str, len, "\n");
-
     function joinLeafNodes(node: Parser.SyntaxNode): string {
       const type = node.type;
       const text = node.text.trim();
