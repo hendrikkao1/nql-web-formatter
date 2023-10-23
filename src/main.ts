@@ -50,6 +50,10 @@ const editor = monaco.editor.create(
   }
 );
 
+editor.onDidPaste(() =>
+  editor.getAction("editor.action.formatDocument")?.run()
+);
+
 document.querySelector("[data-js-id=format]")?.addEventListener("click", () => {
   editor.getAction?.("editor.action.formatDocument")?.run();
 });
