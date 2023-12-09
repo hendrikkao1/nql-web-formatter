@@ -49,7 +49,7 @@ body {
 .toolbar-group {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 1.125rem;
 }
 
 .toolbar-button {
