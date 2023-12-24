@@ -1,0 +1,4 @@
+users
+| compute
+  total_connections = (number_of_rejected_connections.sum() + (number_of_no_service_connections.sum() + number_of_no_service_connections.sum())),
+  total_focus_time = focus_time.sum()

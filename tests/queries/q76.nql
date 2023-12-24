@@ -1,20 +1,5 @@
 users
 
-| with
-  execution.events
-  during past 7d
-
-| where
-  binary.name == "*teams*"
-
 | compute
-  total_connections = number_of_established_connections.sum() + number_of_rejected_connections.sum() + number_of_no_service_connections.sum(),
+  total_connections = (((number_of_established_connections.sum() + number_of_rejected_connections.sum()) + number_of_no_service_connections.sum()) + ((number_of_established_connections.sum() + number_of_rejected_connections.sum()) + number_of_no_service_connections.sum())),
   total_focus_time = focus_time.sum()
-
-| where
-  total_connections < 5
-  and
-  total_focus_time < 1h
-
-| list
-  ad.departent

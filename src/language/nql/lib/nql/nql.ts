@@ -130,7 +130,7 @@ export class NQL {
 
     const checkIfNodeHasTypeOfParent = (
       node: Parser.SyntaxNode,
-      type: string,
+      type: string
     ): boolean => {
       if (!node.parent) {
         return false;
@@ -141,6 +141,22 @@ export class NQL {
       }
 
       return checkIfNodeHasTypeOfParent(node.parent, type);
+    };
+
+    const getNodeOfTypeDepth = (
+      node: Parser.SyntaxNode,
+      type: string,
+      depth = 1
+    ): number => {
+      if (!node.parent) {
+        return depth;
+      }
+
+      if (node.parent.type === type) {
+        return getNodeOfTypeDepth(node.parent, type, depth + 1);
+      }
+
+      return getNodeOfTypeDepth(node.parent, type, depth);
     };
 
     const padLeft = (str: string, len: number, char: string) =>
@@ -215,7 +231,12 @@ export class NQL {
         case ",":
           return padRightSpace(text);
         case "pipe":
-          return text;  
+          return text;
+        case "expression_parenthesized_expression":
+          const depth = getNodeOfTypeDepth(node, node.type, 1);
+          return padLeftNewLine(
+            padLeftSpace(node.children.map(joinLeafNodes).join(""), depth * 2)
+          );
       }
 
       if (!node.children.length) {
