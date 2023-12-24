@@ -58,7 +58,11 @@ export class NqlWorker implements INqlWorker {
       return Promise.reject("ERR: NO_DOCUMENT");
     }
   
-    const formattedNql = await nql.formatContent(document);
+    const formattedNql = await nql.formatContent({
+      content: document,
+      insertSpaces: true,
+      tabSize: 2,
+    });
 
     return formattedNql;
   }
