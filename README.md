@@ -23,3 +23,13 @@ Run visual regression tests:
     --mount type=volume,target=/usr/src/app/node_modules \
     test
 ```
+
+Update visual regression tests:
+
+```sh
+  docker run \
+    --rm \
+    --mount type=bind,source="$(pwd)",target=/usr/src/app \
+    --mount type=volume,target=/usr/src/app/node_modules \
+    test -- --update-snapshots
+```
