@@ -15,6 +15,9 @@ test.describe("Editor formatting and highlighting", () => {
     test(`should format and highlight the query: ${query.file}`, async ({
       page,
     }) => {
+      // Wait for all the resources to be loaded
+      await page.waitForLoadState("networkidle");
+
       const editor = page.getByRole("code");
       const formatButton = page.getByTitle(/Format document/);
       const singleLineQuery = query.content.replaceAll("\n", " ");
@@ -24,9 +27,9 @@ test.describe("Editor formatting and highlighting", () => {
       await formatButton.click();
 
       // Wait for the editor to be update, all the following is done async off the main thread:
-      // * apply formatting
-      // * apply semantic highlighting
-      // * apply diagnostics (errors)
+      // * Apply formatting
+      // * Apply semantic highlighting
+      // * Apply diagnostics (errors)
       await page.waitForTimeout(3000);
 
       await expect(page.getByTestId("editor")).toHaveScreenshot(
