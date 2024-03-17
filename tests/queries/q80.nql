@@ -1,0 +1,18 @@
+devices
+  during past 24h
+
+| include
+  web.page_views
+  during past 24h
+
+| where
+  application.name == "Confluence"
+
+| compute
+  total_cnt = page_view.number_of_page_views.sumif(page_view.experience_level == frustrating)
+
+| sort
+  total_cnt
+  desc
+
+| limit 10

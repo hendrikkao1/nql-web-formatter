@@ -1,0 +1,7 @@
+collaboration.sessions
+  during past 24h
+
+| summarize
+  ratio_of_poor_calls = countif(session.audio.quality = poor or session.video.quality = poor) / count()
+  by 
+  connection_type
