@@ -1,0 +1,11 @@
+devices
+
+| where
+  device.#custom_field == 1
+
+| summarize
+  c1 = device.#custom_field.count()
+
+| list
+  c1,
+  device.#custom_field
