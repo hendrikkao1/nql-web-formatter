@@ -8,4 +8,6 @@ devices
 
 | list
   c1,
+  #site_name,
+  #site_name.domain,
   device.#custom_field
